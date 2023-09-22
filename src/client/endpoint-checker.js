@@ -47,6 +47,7 @@ class EndpointChecker {
       'deleted_tickets',
       'automations',
       'activities',
+      'help_center/articles',
       'help_center/.+/articles',
       'help_center/.+/articles/.+/comments',
       'help_center/.+/articles/.+/labels',
