@@ -33,7 +33,7 @@ class Client {
   constructor(options) {
     this.options = options;
     this.ensureOptionsGetFunction();
-    this.sideLoad = [];
+    this.sideLoad = options.sideLoad;
     this.userAgent = generateUserAgent();
     this.initializeJsonAPINames();
     this.transporter = new Transporter(this.options, this.sideLoad);
