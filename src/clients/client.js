@@ -218,7 +218,7 @@ class Client {
       return getNextPage(currentPage);
     };
 
-    const fetchPagesRecursively = async (pageUri) => {
+    const fetchPagesRecursively = async (pageUri, canRetry = true) => {
       const isIncremental = pageUri.includes('incremental');
 
       try {
@@ -237,7 +237,13 @@ class Client {
           return fetchPagesRecursively(nextPage);
         }
       } catch (error) {
-        throw new Error(`Request all failed during fetching: ${error.message}`);
+        if (!canRetry || ('statusCode' in error && error.statusCode >= 400)) {
+          throw new Error(`Request all failed during fetching: ${error.message}`);
+        }
+
+        console.log(`failed to fetch page ${pageUri}, retrying once...`);
+
+        await fetchPagesRecursively(pageUri, false);
       }
     };
 
