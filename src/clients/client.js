@@ -200,7 +200,7 @@ class Client {
       __request = throttler(this, this._rawRequest, throttle);
     }
 
-    const processPage = ({result, response}) => {
+    const processPage = async ({result, response}) => {
       const currentPage = checkRequestResponse(response, result);
       const hasCursorPagination = (page) =>
         page && page.links && page.links.next;
@@ -213,7 +213,7 @@ class Client {
           : null;
       const item = processResponseBody(currentPage, this);
 
-      cb(item);
+      await cb(item);
 
       return getNextPage(currentPage);
     };
@@ -228,7 +228,7 @@ class Client {
           pageUri,
           ...args,
         );
-        const nextPage = processPage(responseData);
+        const nextPage = await processPage(responseData);
         if (
           nextPage &&
           (!isIncremental ||
@@ -241,6 +241,7 @@ class Client {
           throw new Error(`Request all failed during fetching: ${error.message}`);
         }
 
+        console.log(error);
         console.log(`failed to fetch page ${pageUri}, retrying once...`);
 
         await fetchPagesRecursively(pageUri, false);
