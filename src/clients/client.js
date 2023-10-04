@@ -237,7 +237,7 @@ class Client {
           return fetchPagesRecursively(nextPage);
         }
       } catch (error) {
-        if (!canRetry || ('statusCode' in error && error.statusCode >= 400)) {
+        if (!canRetry || ('statusCode' in error && error.statusCode >= 400) || error.message.includes('Zendesk Error (403): Forbidden')) {
           throw new Error(`Request all failed during fetching: ${error.message}`);
         }
 
