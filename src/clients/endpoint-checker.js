@@ -73,6 +73,7 @@ class EndpointChecker {
       'help_center/users/.+/votes',
       'help_center/users/.+/articles',
       'community/topics',
+      'community/posts',
       'community/posts/.+/comments',
       'community/posts/.+/comments/.+/votes',
       'community/posts/.+/subscriptions',
