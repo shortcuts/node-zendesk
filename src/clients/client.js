@@ -90,7 +90,7 @@ class Client {
    */
   _buildOptions(options, apiType = ApiTypes.core) {
     const endpointUri = this._getEndpointUri(options.subdomain, apiType);
-    const data = {...options, endpointUri};
+    const data = {...options, endpointUri, apiType};
     return {
       ...data,
       get: (key) => data[key],

@@ -141,11 +141,13 @@ function assembleUrl(self, method, uri) {
     segments = [uri];
   }
 
+  const apiType = `${self.options.get('apiType')}/`.replace('core/', '');
+
   let paginationParameters = '';
 
   if (
     method === 'GET' &&
-    self.endpointChecker.supportsCursorPagination(segments.join('/'))
+    self.endpointChecker.supportsCursorPagination(`{apiType}${segments.join('/')}`)
   ) {
     paginationParameters = serialize({page: {size: 100}});
   }
