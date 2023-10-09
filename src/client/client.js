@@ -94,8 +94,8 @@ class Client {
     return this.request('DELETE', resource);
   }
 
-  async getAll(resource) {
-    return this.requestAll('GET', resource);
+  async getAll(resource, cb) {
+    return this.requestAll('GET', resource, cb);
   }
 
   async _rawRequest(method, uri, ...args) {
@@ -127,6 +127,7 @@ class Client {
 
   // Request method for fetching multiple pages of results
   async requestAll(method, uri, cb, ...args) {
+    const bodyList = [];
     const throttle = this.options.get('throttle');
     let __request = this._rawRequest; // Use _rawRequest directly
 
@@ -147,7 +148,11 @@ class Client {
           : null;
       const item = processResponseBody(currentPage, this);
 
+      if (cb) {
       await cb(item);
+      } else {
+        bodyList.push(item);
+      }
 
       return getNextPage(currentPage);
     };
@@ -184,6 +189,9 @@ class Client {
 
     try {
       await fetchPagesRecursively(uri);
+      if (!cb) {
+        return flatten(bodyList);
+      }
     } catch (error) {
       throw new Error(`RequestAll processing failed: ${error.message}`);
     }

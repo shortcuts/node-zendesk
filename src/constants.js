@@ -55,6 +55,7 @@ const MODULES = {
     'ArticleLabels',
     'Articles',
     'Categories',
+    'Locales',
     'Search',
     'Sections',
     'Subscriptions',
