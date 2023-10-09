@@ -40,10 +40,15 @@ const {
  * @property {Transporter} transporter - Transporter for making requests.
  */
 class Client {
-  constructor(options) {
-    this.options = options;
-    this.ensureOptionsGetFunction();
-    this.sideLoad = options.sideLoad;
+  /**
+   * @constructs Client
+   * @param {ClientOptions} options - Configuration options for the client.
+   * @param {ApiTypes} apiType - Type of Zendesk API to initialize (e.g., 'core', 'helpcenter').
+   */
+  constructor(options, apiType) {
+    this.options = this._buildOptions(options, apiType);
+    this.sideLoad = [];
+    this.jsonAPINames = [];
     this.userAgent = generateUserAgent();
     this.eventTarget = new CustomEventTarget();
   }
