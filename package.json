@@ -24,13 +24,12 @@
   },
   "types": "./dist/types/index.d.ts",
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
-    }
+    ".": "./src/index.js",
+    "./*": "./src/*.js"
   },
   "files": [
-    "dist"
+    "src/**/*",
+    "package.json"
   ],
   "scripts": {
     "clean:dist": "npx rimraf ./dist",
