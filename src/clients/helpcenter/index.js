@@ -49,6 +49,16 @@ class ZendeskClientHelpcenter {
     return this._instantiate(Categories);
   }
 
+  get locales() {
+    const {Locales} = require('./locales');
+    return this._instantiate(Locales);
+  }
+
+  get posts() {
+    const {Posts} = require('./posts');
+    return this._instantiate(Posts);
+  }
+
   get search() {
     const {Search} = require('./search');
     return this._instantiate(Search);
