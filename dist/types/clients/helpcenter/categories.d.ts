@@ -3,11 +3,26 @@ export class Categories extends Client {
     jsonAPINames: string[];
     list(): Promise<any[]>;
     listWithLocale(locale: any): Promise<any[]>;
-    show(categoryID: any): Promise<NodeModule>;
-    create(category: any): Promise<NodeModule>;
-    update(categoryID: any, category: any): Promise<NodeModule>;
-    updateWithLocale(locale: any, categoryID: any, category: any): Promise<NodeModule>;
-    updateSourceLocale(categoryID: any, sourceLocale: any): Promise<NodeModule>;
+    show(categoryID: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    create(category: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    update(categoryID: any, category: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    updateWithLocale(locale: any, categoryID: any, category: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    updateSourceLocale(categoryID: any, sourceLocale: any): Promise<{
+        response: any;
+        result: any;
+    }>;
     delete(categoryID: any): Promise<any>;
 }
 import { Client } from "../client";

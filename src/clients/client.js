@@ -1,9 +1,9 @@
 // Client.js - main client file that does most of the processing
 'use strict';
 
-const {ApiTypes, Endpoints} = require('../constants');
-const {CustomEventTarget} = require('./custom-event-target');
-const {Transporter} = require('./transporter');
+const { ApiTypes, Endpoints } = require('../constants');
+const { CustomEventTarget } = require('./custom-event-target');
+const { Transporter } = require('./transporter');
 const throttler = require('./throttle');
 const {
   flatten,
@@ -73,7 +73,7 @@ class Client {
   }
 
   emit(eventType, eventData) {
-    const event = {type: eventType, detail: eventData};
+    const event = { type: eventType, detail: eventData };
     this.eventTarget.dispatchEvent(event);
   }
 
@@ -90,7 +90,7 @@ class Client {
    */
   _buildOptions(options, apiType = ApiTypes.core) {
     const endpointUri = this._getEndpointUri(options.subdomain, apiType);
-    const data = {...options, endpointUri};
+    const data = { ...options, endpointUri };
     return {
       ...data,
       get: (key) => data[key],
@@ -181,16 +181,16 @@ class Client {
    * @param {string} method - HTTP method (e.g., 'GET', 'POST').
    * @param {string} uri - The URI for the request.
    * @param {...any} args - Additional arguments for the request.
-   * @returns {Promise<module:client.ApiResponse<T>>} - The API response.
+   * @returns {Promise<{response: any, result: T}>} - The API response.
    */
   async request(method, uri, ...args) {
     try {
-      const {response, result} = await this._rawRequest(method, uri, ...args);
+      const { response, result } = await this._rawRequest(method, uri, ...args);
       const responseBody = processResponseBody(
         checkRequestResponse(response, result),
         this,
       );
-      return {response, result: responseBody};
+      return { response, result: responseBody };
     } catch (error) {
       throw new Error(`Request processing failed: ${error.message}`);
     }
@@ -206,7 +206,7 @@ class Client {
       __request = throttler(this, this._rawRequest, throttle);
     }
 
-    const processPage = async ({result, response}) => {
+    const processPage = async ({ result, response }) => {
       const currentPage = checkRequestResponse(response, result);
       const hasCursorPagination = (page) =>
         page && page.links && page.links.next;
@@ -215,8 +215,8 @@ class Client {
         hasCursorPagination(page)
           ? page.links.next
           : hasOffsetPagination(page)
-          ? page.next_page
-          : null;
+            ? page.next_page
+            : null;
       const item = processResponseBody(currentPage, this);
 
       if (cb) {
@@ -275,7 +275,7 @@ class Client {
   // Request method for uploading files
   async requestUpload(uri, file) {
     try {
-      const {response, result} = await this.transporter.upload(uri, file);
+      const { response, result } = await this.transporter.upload(uri, file);
       return checkRequestResponse(response, result);
     } catch (error) {
       throw new Error(`Upload failed: ${error.message}`);

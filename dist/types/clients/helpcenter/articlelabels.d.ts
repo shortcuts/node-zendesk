@@ -1,10 +1,22 @@
 export class ArticleLabels extends Client {
     constructor(options: any);
     jsonAPINames: string[];
-    list(): Promise<NodeModule>;
-    listByArticle(articleID: any): Promise<NodeModule>;
-    show(labelID: any): Promise<NodeModule>;
-    create(articleID: any, label: any): Promise<NodeModule>;
+    list(): Promise<{
+        response: any;
+        result: any;
+    }>;
+    listByArticle(articleID: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    show(labelID: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    create(articleID: any, label: any): Promise<{
+        response: any;
+        result: any;
+    }>;
     delete(articleID: any, labelID: any): Promise<any>;
 }
 import { Client } from "../client";

@@ -15,13 +15,34 @@ export class Articles extends Client {
     listByUser(userID: any): Promise<any[]>;
     listSinceStartTime(startTime: any): Promise<any[]>;
     listByLabelNames(labelNames: any): Promise<any[]>;
-    show(articleID: any): Promise<NodeModule>;
-    showWithLocale(locale: any, articleID: any): Promise<NodeModule>;
-    create(sectionID: any, article: any): Promise<NodeModule>;
-    createWithLocale(locale: any, sectionID: any, article: any): Promise<NodeModule>;
-    update(articleID: any, article: any): Promise<NodeModule>;
-    updateWithLocale(locale: any, articleID: any, article: any): Promise<NodeModule>;
-    associateAttachmentsInBulk(articleID: any, attachmentIDsInBulk: any): Promise<NodeModule>;
+    show(articleID: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    showWithLocale(locale: any, articleID: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    create(sectionID: any, article: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    createWithLocale(locale: any, sectionID: any, article: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    update(articleID: any, article: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    updateWithLocale(locale: any, articleID: any, article: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    associateAttachmentsInBulk(articleID: any, attachmentIDsInBulk: any): Promise<{
+        response: any;
+        result: any;
+    }>;
     delete(articleID: any): Promise<any>;
 }
 import { Client } from "../client";

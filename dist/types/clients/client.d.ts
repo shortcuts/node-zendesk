@@ -105,15 +105,24 @@ export class Client {
      */
     private _getEndpointUri;
     setSideLoad(array: any): void;
-    get(resource: any): Promise<NodeModule>;
+    get(resource: any): Promise<{
+        response: any;
+        result: any;
+    }>;
     /**
      * Patches a resource.
      * @param {...any} args - The resources or parts of the resource path followed by the body.
      * @returns {Promise<void|object>} - Either void or response object
      */
     patch(...args: any[]): Promise<void | object>;
-    put(resource: any, body: any): Promise<NodeModule>;
-    post(resource: any, body: any): Promise<NodeModule>;
+    put(resource: any, body: any): Promise<{
+        response: any;
+        result: any;
+    }>;
+    post(resource: any, body: any): Promise<{
+        response: any;
+        result: any;
+    }>;
     /**
      * Deletes a resource.
      * @param {...any} args - The resources or parts of the resource path.
@@ -137,9 +146,12 @@ export class Client {
      * @param {string} method - HTTP method (e.g., 'GET', 'POST').
      * @param {string} uri - The URI for the request.
      * @param {...any} args - Additional arguments for the request.
-     * @returns {Promise<module:client.ApiResponse<T>>} - The API response.
+     * @returns {Promise<{response: any, result: T}>} - The API response.
      */
-    request<T>(method: string, uri: string, ...args: any[]): Promise<NodeModule>;
+    request<T>(method: string, uri: string, ...args: any[]): Promise<{
+        response: any;
+        result: T;
+    }>;
     requestAll(method: any, uri: any, cb: any, ...args: any[]): Promise<any[]>;
     requestUpload(uri: any, file: any): Promise<any>;
 }
