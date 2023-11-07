@@ -197,7 +197,7 @@ class Client {
   }
 
   // Request method for fetching multiple pages of results
-  async requestAll(method, uri, ...args) {
+  async requestAll(method, uri, cb, ...args) {
     const bodyList = [];
     const throttle = this.options.get('throttle');
     let __request = this._rawRequest; // Use _rawRequest directly
@@ -206,7 +206,7 @@ class Client {
       __request = throttler(this, this._rawRequest, throttle);
     }
 
-    const processPage = ({result, response}) => {
+    const processPage = async ({result, response}) => {
       const currentPage = checkRequestResponse(response, result);
       const hasCursorPagination = (page) =>
         page && page.links && page.links.next;
@@ -219,12 +219,16 @@ class Client {
           : null;
       const item = processResponseBody(currentPage, this);
 
-      bodyList.push(item);
+      if (cb) {
+        await cb(item);
+      } else {
+        bodyList.push(item);
+      }
 
       return getNextPage(currentPage);
     };
 
-    const fetchPagesRecursively = async (pageUri) => {
+    const fetchPagesRecursively = async (pageUri, canRetry = true) => {
       const isIncremental = pageUri.includes('incremental');
 
       try {
@@ -234,7 +238,7 @@ class Client {
           pageUri,
           ...args,
         );
-        const nextPage = processPage(responseData);
+        const nextPage = await processPage(responseData);
         if (
           nextPage &&
           (!isIncremental ||
@@ -243,13 +247,26 @@ class Client {
           return fetchPagesRecursively(nextPage);
         }
       } catch (error) {
-        throw new Error(`Request all failed during fetching: ${error.message}`);
+        if (
+          !canRetry ||
+          ('statusCode' in error && error.statusCode >= 400) ||
+          error.message.includes('Zendesk Error (403): Forbidden')
+        ) {
+          throw new Error(
+            `Request all failed during fetching: ${error.message}`,
+          );
+        }
+
+        console.log(error);
+        console.log(`failed to fetch page ${pageUri}, retrying once...`);
+
+        await fetchPagesRecursively(pageUri, false);
       }
     };
 
     try {
       await fetchPagesRecursively(uri);
-      return flatten(bodyList);
+      if (!cb) return flatten(bodyList);
     } catch (error) {
       throw new Error(`RequestAll processing failed: ${error.message}`);
     }
