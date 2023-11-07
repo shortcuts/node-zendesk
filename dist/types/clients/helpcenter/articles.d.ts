@@ -6,7 +6,7 @@ export class Articles extends Client {
         name: string;
         dataset: string;
     }[];
-    list(): Promise<any[]>;
+    list(cb: any): Promise<any[]>;
     listByLocale(locale: any): Promise<any[]>;
     listBySection(sectionID: any): Promise<any[]>;
     listBySectionByLocale(locale: any, sectionID: any): Promise<any[]>;

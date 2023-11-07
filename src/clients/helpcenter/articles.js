@@ -15,8 +15,8 @@ class Articles extends Client {
   }
 
   // Listing Articles
-  async list() {
-    return this.getAll(['articles']);
+  async list(cb) {
+    return this.getAll(['articles'], cb);
   }
 
   // Listing Articles By Locale

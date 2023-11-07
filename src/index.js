@@ -2,6 +2,7 @@
 'use strict';
 
 const ConsoleLogger = require('./logger');
+const {ZendeskClientCommunity} = require('./clients/community');
 const {ZendeskClientHelpcenter} = require('./clients/helpcenter');
 const {ZendeskClientServices} = require('./clients/services');
 const {ZendeskClientVoice} = require('./clients/voice');
@@ -48,6 +49,7 @@ class ZendeskClient {
   constructor(options = {}) {
     this.config = options;
     this.logger = options.logger ?? new ConsoleLogger();
+    this.community = new ZendeskClientCommunity(this);
     this.helpcenter = new ZendeskClientHelpcenter(this);
     this.services = new ZendeskClientServices(this);
     this.voice = new ZendeskClientVoice(this);

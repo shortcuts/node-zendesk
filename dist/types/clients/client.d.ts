@@ -120,7 +120,7 @@ export class Client {
      * @returns {Promise<void|object>} - Either void or response object
      */
     delete(...args: any[]): Promise<void | object>;
-    getAll(resource: any): Promise<any[]>;
+    getAll(resource: any, cb: any): Promise<any[]>;
     _rawRequest(method: any, uri: any, ...args: any[]): Promise<{
         response: any;
         result: {};

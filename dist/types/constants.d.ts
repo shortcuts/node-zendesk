@@ -1,5 +1,6 @@
 export type ApiTypes = string;
 export namespace ApiTypes {
+    let community: string;
     let core: string;
     let helpcenter: string;
     let services: string;

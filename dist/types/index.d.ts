@@ -96,6 +96,7 @@ export class ZendeskClient {
     constructor(options?: ZendeskClientOptions);
     config: ZendeskClientOptions;
     logger: any;
+    community: ZendeskClientCommunity;
     helpcenter: ZendeskClientHelpcenter;
     services: ZendeskClientServices;
     voice: ZendeskClientVoice;
@@ -168,6 +169,7 @@ export class ZendeskClient {
  * @returns {ZendeskClient} An instance of the ZendeskClient class.
  */
 export function createClient(options: ZendeskClientOptions): ZendeskClient;
+import { ZendeskClientCommunity } from "./clients/community";
 import { ZendeskClientHelpcenter } from "./clients/helpcenter";
 import { ZendeskClientServices } from "./clients/services";
 import { ZendeskClientVoice } from "./clients/voice";

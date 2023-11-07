@@ -151,8 +151,8 @@ class Client {
     return this.request('DELETE', resource);
   }
 
-  async getAll(resource) {
-    return this.requestAll('GET', resource);
+  async getAll(resource, cb) {
+    return this.requestAll('GET', resource, cb);
   }
 
   async _rawRequest(method, uri, ...args) {
